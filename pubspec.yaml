@@ -22,6 +22,7 @@ dependencies:
   auto_route: ^5.0.4
   # Allows value based equality for our classes e.g Eat() == Eat() is true
   equatable: ^2.0.5
+  web_socket_channel: ^2.3.0
   
 
 dev_dependencies:
