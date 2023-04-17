@@ -19,10 +19,15 @@ dependencies:
   # Allows converting json to dart class and back 
   json_annotation: ^4.8.0
   # Allows easier routing
-  auto_route: ^5.0.4
+  auto_route: ^6.2.0
   # Allows value based equality for our classes e.g Eat() == Eat() is true
   equatable: ^2.0.5
+
+  # Web socket library
   web_socket_channel: ^2.3.0
+
+  # UI
+  flutter_svg: ^2.0.4
   
 
 dev_dependencies:
@@ -37,3 +42,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  fonts:
+    - family: PlusJakartaSans
+      fonts:
+        - asset: assets/fonts/PlusJakartaSans-VariableFont_wght.ttf
+
+  assets:
+    - assets/images/
+    - assets/icons/
