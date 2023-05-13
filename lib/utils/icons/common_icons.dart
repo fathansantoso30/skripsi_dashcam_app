@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:skripsi_dashcam_app/src/utils/colors/common_colors.dart';
+
+import '../colors/common_colors.dart';
 
 class CommonIcons {
   static SvgPicture defaultSizeAssets(
@@ -32,6 +33,7 @@ class CommonIcons {
     "expand.svg",
     width: 24,
     height: 24,
+    color: CommonColors.themeGreysMainSurface,
   );
 
   static SvgPicture videoCameraOn = defaultSizeAssets(
@@ -42,7 +44,7 @@ class CommonIcons {
   );
 
   static SvgPicture videoCameraOff = defaultSizeAssets(
-    "video-camera-off",
+    "video-camera-off.svg",
     width: 24,
     height: 24,
     color: CommonColors.themeBrandPrimaryTextInvert,
