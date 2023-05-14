@@ -9,7 +9,8 @@ import '../../../../utils/text_style/common_text_style.dart';
 import '../cubit/live_stream_cubit.dart';
 
 class LiveStreamFullScreenPage extends StatefulWidget {
-  const LiveStreamFullScreenPage({super.key});
+  final Stream<dynamic>? stream;
+  const LiveStreamFullScreenPage({super.key, required this.stream});
 
   @override
   State<LiveStreamFullScreenPage> createState() =>
@@ -17,16 +18,12 @@ class LiveStreamFullScreenPage extends StatefulWidget {
 }
 
 class _LiveStreamFullScreenPageState extends State<LiveStreamFullScreenPage> {
-  late LiveStreamCubit liveStreamCubit;
-
   @override
   void initState() {
-    liveStreamCubit = GetIt.instance<LiveStreamCubit>();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
-    liveStreamCubit.getLiveStreamData();
     super.initState();
   }
 
@@ -36,48 +33,26 @@ class _LiveStreamFullScreenPageState extends State<LiveStreamFullScreenPage> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    liveStreamCubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LiveStreamCubit>(
-      create: (context) => liveStreamCubit,
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Container(
-          height: double.infinity,
-          width: double.infinity,
-          color: Colors.black,
-          child: BlocBuilder<LiveStreamCubit, LiveStreamState>(
-              builder: (context, state) {
-            if (state is LiveStreamInitial || state is LiveStreamDisconnected) {
-              return Center(
-                child: Text(
-                  "Start Camera",
-                  style: bodyMregular.copyWith(
-                      color: CommonColors.themeBrandPrimaryTextInvert),
-                ),
-              );
-            } else if (state is LiveStreamLoaded) {
-              // Render the live stream data on the page
-              return Stack(
-                children: [
-                  _buildStreamSection(
-                    stream:
-                        state.liveStream.dataStream?.stream.asBroadcastStream(),
-                  ),
-                  _buildCollapseButton(),
-                ],
-              );
-            } else {
-              // Render a loading indicator while the data is being loaded
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: Colors.black,
+        child:
+            // Render the live stream data on the page
+            Stack(
+          children: [
+            _buildStreamSection(
+              stream: widget.stream,
+            ),
+            _buildCollapseButton(),
+          ],
         ),
       ),
     );
@@ -85,8 +60,8 @@ class _LiveStreamFullScreenPageState extends State<LiveStreamFullScreenPage> {
 
   Widget _buildCollapseButton() {
     return Positioned(
-      bottom: 16,
-      right: 16,
+      bottom: 24,
+      right: 24,
       child: GestureDetector(
         onTap: () {
           Navigator.of(context).pop();

@@ -33,7 +33,7 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
 
   @override
   void dispose() {
-    liveStreamCubit.disconnectLiveStreamData();
+    // liveStreamCubit.disconnectLiveStreamData();
     super.dispose();
   }
 
@@ -41,7 +41,9 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
     dispose();
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const LiveStreamFullScreenPage(),
+        builder: (context) => LiveStreamFullScreenPage(
+          stream: liveStreamCubit.broadcastStream,
+        ),
       ),
     );
   }
@@ -84,7 +86,7 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
           return Stack(
             children: [
               _buildStreamSection(
-                stream: state.liveStream.dataStream?.stream.asBroadcastStream(),
+                stream: liveStreamCubit.broadcastStream,
               ),
               _buildExpandButton(),
             ],
@@ -113,6 +115,7 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
         return Image.memory(
           snapshot.data,
           gaplessPlayback: true,
+          width: double.infinity,
         );
       },
     );
