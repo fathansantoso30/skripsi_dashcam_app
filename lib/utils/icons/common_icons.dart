@@ -27,6 +27,7 @@ class CommonIcons {
     "collapse.svg",
     width: 24,
     height: 24,
+    color: CommonColors.themeGreysMainSurface,
   );
 
   static SvgPicture expand = defaultSizeAssets(
