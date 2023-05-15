@@ -2,10 +2,9 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/usecases/usecase.dart';
-import '../../domain/entities/live_stream_entity.dart';
 import '../../domain/usecases/get_live_stream_data_usecase.dart';
 
 part 'live_stream_state.dart';
@@ -32,7 +31,6 @@ class LiveStreamCubit extends Cubit<LiveStreamState> {
         );
       }, (right) {
         log("$runtimeType Success getLiveStreamData on right");
-        // TODO: fix streamsubscription not implemented correctly
 
         broadcastStream = right.dataStream?.stream.asBroadcastStream();
         // _streamSubscription = broadcastStream?.listen(
@@ -50,12 +48,6 @@ class LiveStreamCubit extends Cubit<LiveStreamState> {
   }
 
   void disconnectLiveStreamData() {
-    // _streamSubscription?.cancel();
-    // TODO: make sure the stream is closed
-    // The connection is still alive but because the cubit emit LiveStreamDisconnected state
-    // when this method called, the screen did changed like its disconnected but its not
-
-    // liveStreamEntity?.dataStream?.sink.close();
     emit(LiveStreamDisconnected());
   }
 }
