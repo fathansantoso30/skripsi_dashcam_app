@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:skripsi_dashcam_app/features/live_stream/presentation/pages/live_stream_full_screen_page.dart';
-import 'features/live_stream/di/live_stream_dependecy_injection.dart';
 
+import 'features/live_stream/di/live_stream_dependecy_injection.dart';
 import 'features/live_stream/presentation/pages/live_stream_page.dart';
 
 void main() {
