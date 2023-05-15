@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:screenshot/screenshot.dart';
 
 import '../../../../utils/colors/common_colors.dart';
 import '../../../../utils/icons/common_icons.dart';
@@ -20,6 +22,7 @@ class LiveStreamPage extends StatefulWidget {
 class _LiveStreamPageState extends State<LiveStreamPage> {
   int _selectedIndex = 1;
   late LiveStreamCubit liveStreamCubit;
+  ScreenshotController screenshotController = ScreenshotController();
 
   @override
   void initState() {
@@ -31,14 +34,9 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    // liveStreamCubit.disconnectLiveStreamData();
-    super.dispose();
-  }
-
+  // No need to dispose as StreamBuilder is has its own streamsubscription
+  // and will unsubscribe the stream if the widget is destroyed which means its already self managed
   void navigateToFullScreenPage() {
-    dispose();
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => LiveStreamFullScreenPage(
@@ -47,6 +45,18 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
       ),
     );
   }
+
+  Future<void> saveScreenshot() async {
+    try {
+      final image = await screenshotController.capture();
+      final result = await ImageGallerySaver.saveImage(image!);
+      debugPrint('Screenshot saved to gallery: $result');
+    } catch (e) {
+      debugPrint('Error saving screenshot: $e');
+    }
+  }
+
+  // TODO: implement show snackbar if succesfully saved to gallery and also error
 
   @override
   Widget build(BuildContext context) {
@@ -102,22 +112,25 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
   }
 
   Widget _buildStreamSection({required Stream? stream}) {
-    return StreamBuilder(
-      stream: stream,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+    return Screenshot(
+      controller: screenshotController,
+      child: StreamBuilder(
+        stream: stream,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-        //? Working for single frames
-        return Image.memory(
-          snapshot.data,
-          gaplessPlayback: true,
-          width: double.infinity,
-        );
-      },
+          //? Working for single frames
+          return Image.memory(
+            snapshot.data,
+            gaplessPlayback: true,
+            width: double.infinity,
+          );
+        },
+      ),
     );
   }
 
@@ -207,7 +220,9 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
           text: "Screenshot Frame",
           colorButton: CommonColors.themeBrandPrimaryLightSurface,
           colorText: CommonColors.themeGreysMainTextPrimary,
-          onPressed: () {}, // TODO: Add method for screenshot live stream
+          onPressed: () {
+            saveScreenshot();
+          },
         ),
         const SizedBox(
           height: 24,
