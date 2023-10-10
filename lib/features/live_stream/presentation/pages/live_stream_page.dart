@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:screenshot/screenshot.dart';
@@ -10,6 +11,7 @@ import '../../../../utils/icons/common_icons.dart';
 import '../../../../utils/images/common_images.dart';
 import '../../../../utils/text_style/common_text_style.dart';
 import '../cubit/live_stream_cubit.dart';
+import '../widgets/timestamp_clock.dart';
 import 'live_stream_full_screen_page.dart';
 
 class LiveStreamPage extends StatefulWidget {
@@ -51,12 +53,20 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
       final image = await screenshotController.capture();
       final result = await ImageGallerySaver.saveImage(image!);
       debugPrint('Screenshot saved to gallery: $result');
+      Fluttertoast.showToast(
+        msg: "Screenshot saved",
+        toastLength: Toast.LENGTH_SHORT, //duration
+        gravity: ToastGravity.BOTTOM, //location
+      );
     } catch (e) {
       debugPrint('Error saving screenshot: $e');
+      Fluttertoast.showToast(
+        msg: "Error saving screenshot: $e",
+        toastLength: Toast.LENGTH_SHORT, //duration
+        gravity: ToastGravity.BOTTOM, //location
+      );
     }
   }
-
-  // TODO: implement show snackbar if succesfully saved to gallery and also error
 
   @override
   Widget build(BuildContext context) {
@@ -124,11 +134,14 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
           }
 
           //? Working for single frames
-          return Image.memory(
-            snapshot.data,
-            gaplessPlayback: true,
-            width: double.infinity,
-          );
+          return Stack(children: [
+            Image.memory(
+              snapshot.data,
+              gaplessPlayback: true,
+              width: double.infinity,
+            ),
+            const TimestampClock(),
+          ]);
         },
       ),
     );

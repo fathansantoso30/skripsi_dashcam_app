@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:skripsi_dashcam_app/features/live_stream/presentation/widgets/timestamp_clock.dart';
 
 import '../../../../utils/icons/common_icons.dart';
 
@@ -30,21 +32,19 @@ class _LiveStreamFullScreenPageState extends State<LiveStreamFullScreenPage> {
       final image = await screenshotLandscapeController.capture();
       final result = await ImageGallerySaver.saveImage(image!);
       debugPrint('Screenshot saved to gallery: $result');
+      Fluttertoast.showToast(
+        msg: "Screenshot saved",
+        toastLength: Toast.LENGTH_SHORT, //duration
+        gravity: ToastGravity.BOTTOM, //location
+      );
     } catch (e) {
       debugPrint('Error saving screenshot: $e');
+      Fluttertoast.showToast(
+        msg: "Error saving screenshot: $e",
+        toastLength: Toast.LENGTH_SHORT, //duration
+        gravity: ToastGravity.BOTTOM, //location
+      );
     }
-  }
-
-  // TODO: implement show snackbar if succesfully saved to gallery and also error
-  void showSnackbar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: const Duration(
-          seconds: 2,
-        ),
-      ),
-    );
   }
 
   @override
@@ -78,32 +78,46 @@ class _LiveStreamFullScreenPageState extends State<LiveStreamFullScreenPage> {
     );
   }
 
+  // Widget _buildButtonSection() {
+  //   return Positioned(
+  //     bottom: 24,
+  //     right: 24,
+  //     child: Row(
+  //       children: [
+  //         _buildScreenshotButton(),
+  //         const SizedBox(
+  //           width: 24,
+  //         ),
+  //         _buildCollapseButton(),
+  //       ],
+  //     ),
+  //   );
+  // }
   Widget _buildButtonSection() {
-    return Positioned(
-      bottom: 24,
-      right: 24,
-      child: Row(
-        children: [
-          _buildScreenshotButton(),
-          const SizedBox(
-            width: 24,
-          ),
-          _buildCollapseButton(),
-        ],
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            _buildScreenshotButton(),
+            const SizedBox(
+              width: 24,
+            ),
+            _buildCollapseButton(),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildCollapseButton() {
-    return Positioned(
-      bottom: 24,
-      right: 24,
-      child: GestureDetector(
-        onTap: () {
-          Navigator.of(context).pop();
-        },
-        child: CommonIcons.collapse,
-      ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+      child: CommonIcons.collapse,
     );
   }
 
@@ -129,11 +143,16 @@ class _LiveStreamFullScreenPageState extends State<LiveStreamFullScreenPage> {
           }
 
           //? Working for single frames
-          return Image.memory(
-            snapshot.data,
-            gaplessPlayback: true,
-            height: double.infinity,
-            width: double.infinity,
+          return Stack(
+            children: [
+              Image.memory(
+                snapshot.data,
+                gaplessPlayback: true,
+                height: double.infinity,
+                width: double.infinity,
+              ),
+              const TimestampClock(),
+            ],
           );
         },
       ),
