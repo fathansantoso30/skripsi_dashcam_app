@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 TextStyle get titleH1 => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 48,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -10,6 +11,7 @@ TextStyle get titleH1 => const TextStyle(
     );
 
 TextStyle get titleH2 => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 40,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -19,6 +21,7 @@ TextStyle get titleH2 => const TextStyle(
     );
 
 TextStyle get titleH3 => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 32,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -28,6 +31,7 @@ TextStyle get titleH3 => const TextStyle(
     );
 
 TextStyle get titleH4 => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 24,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -37,6 +41,7 @@ TextStyle get titleH4 => const TextStyle(
     );
 
 TextStyle get titleH5 => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 20,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -46,6 +51,7 @@ TextStyle get titleH5 => const TextStyle(
     );
 
 TextStyle get bodyLregular => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 18,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -55,6 +61,7 @@ TextStyle get bodyLregular => const TextStyle(
     );
 
 TextStyle get bodyLmedium => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 18,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -64,6 +71,7 @@ TextStyle get bodyLmedium => const TextStyle(
     );
 
 TextStyle get bodyMregular => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 16,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -73,6 +81,7 @@ TextStyle get bodyMregular => const TextStyle(
     );
 
 TextStyle get bodyMmedium => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 16,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -82,6 +91,7 @@ TextStyle get bodyMmedium => const TextStyle(
     );
 
 TextStyle get bodySregular => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 14,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -91,6 +101,7 @@ TextStyle get bodySregular => const TextStyle(
     );
 
 TextStyle get bodySmedium => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 14,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -100,6 +111,7 @@ TextStyle get bodySmedium => const TextStyle(
     );
 
 TextStyle get bodyXSregular => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 12,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -109,6 +121,7 @@ TextStyle get bodyXSregular => const TextStyle(
     );
 
 TextStyle get bodyXSmedium => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 12,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -118,6 +131,7 @@ TextStyle get bodyXSmedium => const TextStyle(
     );
 
 TextStyle get buttonL => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 18,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -127,6 +141,7 @@ TextStyle get buttonL => const TextStyle(
     );
 
 TextStyle get buttonM => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 16,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -136,6 +151,7 @@ TextStyle get buttonM => const TextStyle(
     );
 
 TextStyle get buttonS => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 14,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -145,10 +161,21 @@ TextStyle get buttonS => const TextStyle(
     );
 
 TextStyle get interfacesectionheading => const TextStyle(
+      fontFamily: 'PlusJakartaSans',
       fontSize: 11,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
       fontWeight: FontWeight.w700,
       height: 19 / 11,
       letterSpacing: 15,
+    );
+
+TextStyle get timestampStyle => const TextStyle(
+      fontFamily: 'Consolas',
+      fontSize: 16,
+      decoration: TextDecoration.none,
+      fontStyle: FontStyle.normal,
+      fontWeight: FontWeight.w400,
+      height: 26 / 16,
+      letterSpacing: 0,
     );
