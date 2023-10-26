@@ -72,17 +72,14 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
   Widget build(BuildContext context) {
     return BlocProvider<LiveStreamCubit>(
       create: (context) => liveStreamCubit,
-      child: Scaffold(
-        body: ListView(
-          children: [
-            _buildVideoScreenSection(),
-            const SizedBox(
-              height: 24.0,
-            ),
-            _buildBodySection(),
-          ],
-        ),
-        bottomNavigationBar: _buildNavbarSection(),
+      child: Column(
+        children: [
+          _buildVideoScreenSection(),
+          const SizedBox(
+            height: 24.0,
+          ),
+          _buildBodySection(),
+        ],
       ),
     );
   }
