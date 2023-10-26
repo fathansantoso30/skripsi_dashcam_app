@@ -65,7 +65,7 @@ TextStyle get bodyLmedium => const TextStyle(
       fontSize: 18,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       height: 26 / 18,
       letterSpacing: 0,
     );
