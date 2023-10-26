@@ -120,4 +120,23 @@ class CommonIcons {
     width: 24,
     height: 24,
   );
+
+  static SvgPicture time = defaultSizeAssets(
+    "time.svg",
+    width: 16,
+    height: 16,
+  );
+
+  static SvgPicture play = defaultSizeAssets(
+    "play.svg",
+    width: 16,
+    height: 16,
+    color: CommonColors.themeGreysMainSurface,
+  );
+
+  static SvgPicture share = defaultSizeAssets(
+    "share.svg",
+    width: 24,
+    height: 24,
+  );
 }
