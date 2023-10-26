@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skripsi_dashcam_app/features/home/presentation/pages/home_page.dart';
 
 import 'features/live_stream/di/live_stream_dependecy_injection.dart';
 import 'features/live_stream/presentation/pages/live_stream_page.dart';
@@ -20,8 +21,7 @@ class MainApp extends StatelessWidget {
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
       ),
-      home: const LiveStreamPage(),
-      // home: const LiveStreamFullScreenPage(),
+      home: const HomePage(),
     );
   }
 }
