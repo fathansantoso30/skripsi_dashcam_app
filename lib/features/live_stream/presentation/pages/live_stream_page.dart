@@ -70,8 +70,8 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LiveStreamCubit>(
-      create: (context) => liveStreamCubit,
+    return BlocProvider.value(
+      value: liveStreamCubit,
       child: Column(
         children: [
           _buildVideoScreenSection(),

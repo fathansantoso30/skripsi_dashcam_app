@@ -127,15 +127,50 @@ class CommonIcons {
     height: 16,
   );
 
+  static SvgPicture share = defaultSizeAssets(
+    "share.svg",
+    width: 24,
+    height: 24,
+  );
+
+  // Video Player Icons
   static SvgPicture play = defaultSizeAssets(
     "play.svg",
     width: 16,
     height: 16,
-    color: CommonColors.themeGreysMainSurface,
+    color: CommonColors.themeGreysInvertTextPrimary,
   );
 
-  static SvgPicture share = defaultSizeAssets(
-    "share.svg",
+  static SvgPicture pause = defaultSizeAssets(
+    "pause.svg",
+    width: 24,
+    height: 24,
+    color: CommonColors.themeGreysInvertTextPrimary,
+  );
+
+  static SvgPicture forward10 = defaultSizeAssets(
+    "forward10.svg",
+    width: 24,
+    height: 24,
+    color: CommonColors.themeGreysInvertTextPrimary,
+  );
+
+  static SvgPicture replay10 = defaultSizeAssets(
+    "replay10.svg",
+    width: 24,
+    height: 24,
+    color: CommonColors.themeGreysInvertTextPrimary,
+  );
+
+  static SvgPicture arrowBack = defaultSizeAssets(
+    "arrow-back.svg",
+    width: 24,
+    height: 24,
+    color: CommonColors.themeGreysInvertTextPrimary,
+  );
+
+  static SvgPicture download = defaultSizeAssets(
+    "download.svg",
     width: 24,
     height: 24,
   );

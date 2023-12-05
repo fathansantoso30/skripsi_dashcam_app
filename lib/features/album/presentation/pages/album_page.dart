@@ -1,37 +1,112 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:skripsi_dashcam_app/features/album/presentation/cubit/album_cubit.dart';
+import 'package:skripsi_dashcam_app/features/album/presentation/pages/widgets/video_player_view.dart';
 import 'package:skripsi_dashcam_app/utils/colors/common_colors.dart';
 import 'package:skripsi_dashcam_app/utils/icons/common_icons.dart';
 import 'package:skripsi_dashcam_app/utils/text_style/common_text_style.dart';
 
-class AlbumPage extends StatelessWidget {
+class AlbumPage extends StatefulWidget {
   const AlbumPage({super.key});
 
   @override
+  State<AlbumPage> createState() => _AlbumPageState();
+}
+
+class _AlbumPageState extends State<AlbumPage> {
+  late AlbumCubit albumCubit;
+  @override
+  void initState() {
+    albumCubit = GetIt.instance<AlbumCubit>();
+    albumCubit.getVideoList();
+    albumCubit.getCurrentDate();
+    // TODO: take thumbnail from video asset
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      minimum: const EdgeInsets.all(12),
-      //TODO: Make scrollable
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildDate(),
-          const SizedBox(
-            height: 12,
-          ),
-          _buildCardVideo(),
-        ],
+    return BlocProvider.value(
+      value: albumCubit,
+      // create: (context) => albumCubit,
+      child: SafeArea(
+          minimum: const EdgeInsets.all(12),
+          //TODO: Make scrollable
+          child: BlocConsumer<AlbumCubit, AlbumState>(
+            listener: (context, state) {
+              // TODO: implement listener
+            },
+            builder: (context, state) {
+              return ListView.builder(
+                  itemCount: albumCubit.videoListEntity?.videos?.length,
+                  itemBuilder: (context, index) {
+                    if (index == 0 ||
+                        albumCubit.videoListEntity?.videos?[index]
+                                .formattedDate !=
+                            albumCubit.videoListEntity?.videos?[index - 1]
+                                .formattedDate) {
+                      // Display date header if it's the first item or the date changes
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildDate(
+                            creationDate: albumCubit.videoListEntity
+                                        ?.videos?[index].formattedDate ==
+                                    albumCubit.todayDate
+                                ? 'Today'
+                                : albumCubit.videoListEntity?.videos?[index]
+                                            .formattedDate ==
+                                        albumCubit.yesterdayDate
+                                    ? 'Yesterday'
+                                    : albumCubit.videoListEntity?.videos?[index]
+                                        .formattedDate,
+                          ),
+                          _buildCardVideo(
+                            filename: albumCubit
+                                .videoListEntity?.videos?[index].filename,
+                            duration: albumCubit
+                                .videoListEntity?.videos?[index].duration,
+                            hourTime: albumCubit
+                                .videoListEntity?.videos?[index].hourTime,
+                          ),
+                        ],
+                      );
+                    } else {
+                      // Display only the item card if the date is the same
+                      return _buildCardVideo(
+                        filename:
+                            albumCubit.videoListEntity?.videos?[index].filename,
+                        duration:
+                            albumCubit.videoListEntity?.videos?[index].duration,
+                        hourTime:
+                            albumCubit.videoListEntity?.videos?[index].hourTime,
+                      );
+                    }
+                  });
+            },
+          )),
+    );
+  }
+
+  Widget _buildDate({required String? creationDate}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 4,
+        vertical: 12,
+      ),
+      child: Text(
+        creationDate ?? '',
+        style: bodyLmedium,
       ),
     );
   }
 
-  Widget _buildDate() {
-    return Text(
-      "Today",
-      style: bodyLmedium,
-    );
-  }
-
-  Widget _buildCardVideo() {
+  Widget _buildCardVideo({
+    required String? filename,
+    required String? duration,
+    required String? hourTime,
+  }) {
     return Card(
       elevation: 4,
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -39,37 +114,45 @@ class AlbumPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
-        // mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              //TODO: Add gesture detector on container
-              Container(
-                width: 120,
-                height: 90,
-                color: Colors.black,
-                child: Stack(
-                  children: [
-                    //TODO: Add image previews or thumbnail
-                    Center(child: CommonIcons.play),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          right: 4,
-                          bottom: 2,
-                        ),
-                        child: Text(
-                          "55m 24s",
-                          style: bodyXSregular.copyWith(
-                            color: CommonColors.themeGreysMainSurface,
+              GestureDetector(
+                onTap: () {
+                  //TODO
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const VideoPlayerView()),
+                  );
+                },
+                child: Container(
+                  width: 120,
+                  height: 90,
+                  color: Colors.black,
+                  child: Stack(
+                    children: [
+                      //TODO: Add image previews or thumbnail
+                      Center(child: CommonIcons.play),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            right: 4,
+                            bottom: 2,
+                          ),
+                          child: Text(
+                            duration ?? '',
+                            style: bodyXSregular.copyWith(
+                              color: CommonColors.themeGreysMainSurface,
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(
@@ -79,7 +162,7 @@ class AlbumPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "namafile.avi",
+                    filename ?? '',
                     style: bodySregular,
                   ),
                   Row(
@@ -90,7 +173,7 @@ class AlbumPage extends StatelessWidget {
                         child: CommonIcons.time,
                       ),
                       Text(
-                        "6:30 AM",
+                        hourTime ?? '',
                         style: bodySmedium,
                       )
                     ],
@@ -102,7 +185,11 @@ class AlbumPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16),
             //TODO: Add ontap function on share icon
-            child: CommonIcons.share,
+            child: GestureDetector(
+                onTap: () {
+                  //TODO
+                },
+                child: CommonIcons.share),
           )
         ],
       ),
