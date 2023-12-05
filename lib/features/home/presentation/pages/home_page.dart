@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:skripsi_dashcam_app/features/album/presentation/cubit/album_cubit.dart';
 import 'package:skripsi_dashcam_app/features/album/presentation/pages/album_page.dart';
 import 'package:skripsi_dashcam_app/features/home/presentation/cubit/navbar_cubit.dart';
+import 'package:skripsi_dashcam_app/features/live_stream/presentation/cubit/live_stream_cubit.dart';
 import 'package:skripsi_dashcam_app/features/live_stream/presentation/pages/live_stream_page.dart';
 import 'package:skripsi_dashcam_app/utils/icons/common_icons.dart';
 
@@ -17,16 +20,28 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 1;
 
+  late LiveStreamCubit liveStreamCubit;
+  late AlbumCubit albumCubit;
+
   @override
   void initState() {
     super.initState();
+    liveStreamCubit = GetIt.instance<LiveStreamCubit>();
+    albumCubit = GetIt.instance<AlbumCubit>();
     _selectedIndex = 1;
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NavbarCubit(),
+    //TODO: Maybe change the blocprovider to multiblocprovider then add the other cubit in here or on each page
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<NavbarCubit>(
+          create: (context) => NavbarCubit(),
+        ),
+        BlocProvider<LiveStreamCubit>(create: (context) => liveStreamCubit),
+        BlocProvider<AlbumCubit>(create: (context) => albumCubit),
+      ],
       child: BlocConsumer<NavbarCubit, NavbarState>(
           builder: (context, state) {
             var cubit = NavbarCubit.get(context);
@@ -72,13 +87,13 @@ class _HomePageState extends State<HomePage> {
         ]);
   }
 
-  static List<Widget> _pages = <Widget>[
+  static final List<Widget> _pages = <Widget>[
     const AlbumPage(),
     const LiveStreamPage(),
     //TODO: Add settings page
     Container(
       color: Colors.grey.shade300,
-      child: Center(
+      child: const Center(
         child: Text('Settings still work on progress...'),
       ),
     ),
