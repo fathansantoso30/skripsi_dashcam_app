@@ -26,14 +26,21 @@ class Videos {
   String? fileSize;
   String? duration;
   String? creationDate;
+  String? path;
 
-  Videos({this.filename, this.fileSize, this.duration, this.creationDate});
+  Videos(
+      {this.filename,
+      this.fileSize,
+      this.duration,
+      this.creationDate,
+      this.path});
 
   Videos.fromJson(Map<String, dynamic> json) {
     filename = json['filename'];
     fileSize = json['file_size'];
     duration = json['duration'];
     creationDate = json['creation_date'];
+    path = json['path'];
   }
 
   Map<String, dynamic> toJson() {
@@ -42,6 +49,7 @@ class Videos {
     data['file_size'] = fileSize;
     data['duration'] = duration;
     data['creation_date'] = creationDate;
+    data['path'] = path;
     return data;
   }
 }
