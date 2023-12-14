@@ -1,65 +1,74 @@
 {
-    "videos": [
-      {
-        "filename": "video1.mp4",
-        "file_size": "1024000", 
-        "duration": "00:02:30", 
-        "creation_date": "2023-10-30T14:25:00Z"
-      },
-      {
-        "filename": "video2.mkv",
-        "file_size": "2048000",
-        "duration": "00:05:15",
-        "creation_date": "2023-11-22T11:45:00Z"
-      },
-      {
-        "filename": "video3.avi",
-        "file_size": "1536000",
-        "duration": "00:03:45",
-        "creation_date": "2023-11-23T09:20:00Z"
-      },
-      {
-        "filename": "video4.mov",
-        "file_size": "512000",
-        "duration": "00:01:00",
-        "creation_date": "2023-11-23T18:10:00Z"
-      },
-      {
-        "filename": "video5.mp4",
-        "file_size": "819200",
-        "duration": "00:01:45",
-        "creation_date": "2023-10-31T08:35:00Z"
-      },
-      {
-        "filename": "video6.mkv",
-        "file_size": "2560000",
-        "duration": "00:06:30",
-        "creation_date": "2023-10-30T20:50:00Z"
-      },
-      {
-        "filename": "video7.avi",
-        "file_size": "1024000",
-        "duration": "00:02:15",
-        "creation_date": "2023-10-31T12:00:00Z"
-      },
-      {
-        "filename": "video8.mp4",
-        "file_size": "2048000",
-        "duration": "00:04:00",
-        "creation_date": "2023-10-31T16:55:00Z"
-      },
-      {
-        "filename": "video9.mkv",
-        "file_size": "1536000",
-        "duration": "00:03:30",
-        "creation_date": "2023-10-31T10:20:00Z"
-      },
-      {
-        "filename": "video10.avi",
-        "file_size": "1024000",
-        "duration": "00:02:00",
-        "creation_date": "2023-10-30T09:15:00Z"
-      }
-    ]
-  }
-  
+  "videos": [
+    {
+      "filename": "video1.mp4",
+      "file_size": "1024000", 
+      "duration": "00:02:30", 
+      "creation_date": "2023-10-30T14:25:00Z",
+      "path": "assets/videos/testvid.mp4"
+    },
+    {
+      "filename": "video2.mkv",
+      "file_size": "2048000",
+      "duration": "00:05:15",
+      "creation_date": "2023-11-22T11:45:00Z",
+      "path": "assets/videos/testvid.mp4"
+    },
+    {
+      "filename": "video3.avi",
+      "file_size": "1536000",
+      "duration": "00:03:45",
+      "creation_date": "2023-11-23T09:20:00Z",
+      "path": "assets/videos/testvid.mp4"
+    },
+    {
+      "filename": "video4.mov",
+      "file_size": "512000",
+      "duration": "00:01:00",
+      "creation_date": "2023-11-23T18:10:00Z",
+      "path": "assets/videos/testvid.mp4"
+    },
+    {
+      "filename": "video5.mp4",
+      "file_size": "819200",
+      "duration": "00:01:45",
+      "creation_date": "2023-10-31T08:35:00Z",
+      "path": "assets/videos/testvid.mp4"
+    },
+    {
+      "filename": "video6.mkv",
+      "file_size": "2560000",
+      "duration": "00:06:30",
+      "creation_date": "2023-10-30T20:50:00Z",
+      "path": "assets/videos/testvid.mp4"
+    },
+    {
+      "filename": "video7.avi",
+      "file_size": "1024000",
+      "duration": "00:02:15",
+      "creation_date": "2023-10-31T12:00:00Z",
+      "path": "assets/videos/testvid.mp4"
+    },
+    {
+      "filename": "video8.mp4",
+      "file_size": "2048000",
+      "duration": "00:04:00",
+      "creation_date": "2023-10-31T16:55:00Z",
+      "path": "assets/videos/testvid.mp4"
+    },
+    {
+      "filename": "video9.mkv",
+      "file_size": "1536000",
+      "duration": "00:03:30",
+      "creation_date": "2023-10-31T10:20:00Z",
+      "path": "assets/videos/testvid.mp4"
+    },
+    {
+      "filename": "video10.avi",
+      "file_size": "1024000",
+      "duration": "00:02:00",
+      "creation_date": "2023-10-30T09:15:00Z",
+      "path": "assets/videos/testvid.mp4"
+    }
+  ]
+}

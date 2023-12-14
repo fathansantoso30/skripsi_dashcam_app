@@ -11,6 +11,7 @@ class VideosOE {
   DateTime? creationDate;
   String? formattedDate;
   String? hourTime;
+  String? videoPath;
 
   VideosOE({
     this.filename,
@@ -19,5 +20,6 @@ class VideosOE {
     this.creationDate,
     this.formattedDate,
     this.hourTime,
+    this.videoPath,
   });
 }
