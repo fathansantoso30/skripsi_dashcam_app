@@ -5,8 +5,10 @@ import 'package:skripsi_dashcam_app/utils/icons/common_icons.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerView extends StatefulWidget {
+  final String videoPath;
   const VideoPlayerView({
     Key? key,
+    required this.videoPath,
   }) : super(key: key);
 
   @override
@@ -23,7 +25,7 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
   @override
   void initState() {
     super.initState();
-    initializePlayer();
+    initializePlayer(widget.videoPath);
   }
 
   @override
@@ -37,12 +39,11 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
   // String srcs =
   //   "https://assets.mixkit.co/videos/preview/mixkit-daytime-city-traffic-aerial-view-56-large.mp4",
 
-  Future<void> initializePlayer() async {
+  Future<void> initializePlayer(String videoPath) async {
     // network url source
     // _videoPlayerController1 =
     //     VideoPlayerController.networkUrl(Uri.parse(srcs));
-    _videoPlayerController1 =
-        VideoPlayerController.asset('assets/videos/testvid.mp4');
+    _videoPlayerController1 = VideoPlayerController.asset(videoPath);
     await Future.wait([
       _videoPlayerController1.initialize(),
     ]);

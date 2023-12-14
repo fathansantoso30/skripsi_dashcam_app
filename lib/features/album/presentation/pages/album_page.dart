@@ -69,6 +69,8 @@ class _AlbumPageState extends State<AlbumPage> {
                                 .videoListEntity?.videos?[index].duration,
                             hourTime: albumCubit
                                 .videoListEntity?.videos?[index].hourTime,
+                            videoPath: albumCubit
+                                .videoListEntity?.videos?[index].videoPath,
                           ),
                         ],
                       );
@@ -81,6 +83,8 @@ class _AlbumPageState extends State<AlbumPage> {
                             albumCubit.videoListEntity?.videos?[index].duration,
                         hourTime:
                             albumCubit.videoListEntity?.videos?[index].hourTime,
+                        videoPath: albumCubit
+                            .videoListEntity?.videos?[index].videoPath,
                       );
                     }
                   });
@@ -106,6 +110,7 @@ class _AlbumPageState extends State<AlbumPage> {
     required String? filename,
     required String? duration,
     required String? hourTime,
+    required String? videoPath,
   }) {
     return Card(
       elevation: 4,
@@ -124,7 +129,9 @@ class _AlbumPageState extends State<AlbumPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const VideoPlayerView()),
+                        builder: (context) => VideoPlayerView(
+                              videoPath: videoPath ?? '',
+                            )),
                   );
                 },
                 child: Container(
@@ -189,7 +196,7 @@ class _AlbumPageState extends State<AlbumPage> {
                 onTap: () {
                   //TODO
                 },
-                child: CommonIcons.share),
+                child: CommonIcons.download),
           )
         ],
       ),

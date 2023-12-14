@@ -25,6 +25,7 @@ class VideoListMapper {
         creationDate: creationDate,
         formattedDate: formattedDate,
         hourTime: hourTime,
+        videoPath: element.path,
       ));
 
       // Sort videos by creation date
