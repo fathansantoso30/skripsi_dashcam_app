@@ -14,9 +14,10 @@ class LiveStreamRemoteDataSourceImpl implements LiveStreamRemoteDataSource {
   @override
   Future<LiveStreamModel> getLiveStreamData() async {
     // Websocket url address
-    const String url = "ws://192.168.4.1:8888";
+    final Uri url = Uri.parse("ws://192.168.4.1:8888");
     // connect tot websocket channel
-    WebSocketChannel? channel = IOWebSocketChannel.connect(Uri.parse(url));
+    WebSocketChannel? channel = IOWebSocketChannel.connect(url);
+    await channel.ready;
     return LiveStreamModel(dataStream: channel);
   }
 }
