@@ -30,15 +30,9 @@ class LiveStreamCubit extends Cubit<LiveStreamState> {
                   "$runtimeType Error on try when getLiveStreamData on left - ${left.props}"),
         );
       }, (right) {
-        log("$runtimeType Success getLiveStreamData on right");
-
         broadcastStream = right.dataStream?.stream.asBroadcastStream();
-        // _streamSubscription = broadcastStream?.listen(
-        //   (event) {},
-        //   onDone: () => debugPrint('Stream closed successfully'),
-        // );
+        log("$runtimeType Success getLiveStreamData on right");
         emit(LiveStreamLoaded());
-        // emit(LiveStreamLoaded(liveStream: right));
       });
     } catch (e) {
       emit(LiveStreamError(

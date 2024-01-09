@@ -22,7 +22,6 @@ class LiveStreamPage extends StatefulWidget {
 }
 
 class _LiveStreamPageState extends State<LiveStreamPage> {
-  int _selectedIndex = 1;
   late LiveStreamCubit liveStreamCubit;
   ScreenshotController screenshotController = ScreenshotController();
 
@@ -54,7 +53,7 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
       final result = await ImageGallerySaver.saveImage(image!);
       debugPrint('Screenshot saved to gallery: $result');
       Fluttertoast.showToast(
-        msg: "Screenshot saved",
+        msg: "Screenshot saved in Gallery",
         toastLength: Toast.LENGTH_SHORT, //duration
         gravity: ToastGravity.BOTTOM, //location
       );
@@ -266,36 +265,6 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
         ),
       ],
     );
-  }
-
-  Widget _buildNavbarSection() {
-    return BottomNavigationBar(
-        elevation: 4,
-        currentIndex: _selectedIndex,
-        onTap: (value) {
-          setState(() {
-            _selectedIndex = value;
-          });
-        },
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: [
-          BottomNavigationBarItem(
-            label: "Gallery",
-            icon: CommonIcons.gallery,
-            activeIcon: CommonIcons.galleryActive,
-          ),
-          BottomNavigationBarItem(
-            label: "Home",
-            icon: CommonIcons.home,
-            activeIcon: CommonIcons.homeActive,
-          ),
-          BottomNavigationBarItem(
-            label: "Settings",
-            icon: CommonIcons.settings,
-            activeIcon: CommonIcons.settingsActive,
-          ),
-        ]);
   }
 
   Widget _commonButton({
