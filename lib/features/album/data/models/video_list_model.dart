@@ -1,55 +1,47 @@
 class VideoListModel {
-  List<Videos>? videos;
+  List<Data>? data;
 
-  VideoListModel({this.videos});
+  VideoListModel({this.data});
 
   VideoListModel.fromJson(Map<String, dynamic> json) {
-    if (json['videos'] != null) {
-      videos = <Videos>[];
-      json['videos'].forEach((v) {
-        videos!.add(Videos.fromJson(v));
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (videos != null) {
-      data['videos'] = videos!.map((v) => v.toJson()).toList();
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class Videos {
-  String? filename;
-  String? fileSize;
-  String? duration;
-  String? creationDate;
+class Data {
+  String? name;
   String? path;
+  int? size;
+  int? lastWrite;
 
-  Videos(
-      {this.filename,
-      this.fileSize,
-      this.duration,
-      this.creationDate,
-      this.path});
+  Data({this.name, this.path, this.size, this.lastWrite});
 
-  Videos.fromJson(Map<String, dynamic> json) {
-    filename = json['filename'];
-    fileSize = json['file_size'];
-    duration = json['duration'];
-    creationDate = json['creation_date'];
+  Data.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
     path = json['path'];
+    size = json['size'];
+    lastWrite = json['lastWrite'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['filename'] = filename;
-    data['file_size'] = fileSize;
-    data['duration'] = duration;
-    data['creation_date'] = creationDate;
+    data['name'] = name;
     data['path'] = path;
+    data['size'] = size;
+    data['lastWrite'] = lastWrite;
     return data;
   }
 }

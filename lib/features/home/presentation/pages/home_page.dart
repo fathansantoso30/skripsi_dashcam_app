@@ -33,7 +33,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Maybe change the blocprovider to multiblocprovider then add the other cubit in here or on each page
     return MultiBlocProvider(
       providers: [
         BlocProvider<NavbarCubit>(
@@ -79,11 +78,11 @@ class _HomePageState extends State<HomePage> {
             icon: CommonIcons.home,
             activeIcon: CommonIcons.homeActive,
           ),
-          BottomNavigationBarItem(
-            label: "Settings",
-            icon: CommonIcons.settings,
-            activeIcon: CommonIcons.settingsActive,
-          ),
+          // BottomNavigationBarItem(
+          //   label: "Settings",
+          //   icon: CommonIcons.settings,
+          //   activeIcon: CommonIcons.settingsActive,
+          // ),
         ]);
   }
 
@@ -91,11 +90,11 @@ class _HomePageState extends State<HomePage> {
     const AlbumPage(),
     const LiveStreamPage(),
     //TODO: Add settings page
-    Container(
-      color: Colors.grey.shade300,
-      child: const Center(
-        child: Text('Settings still work on progress...'),
-      ),
-    ),
+    // Container(
+    //   color: Colors.grey.shade300,
+    //   child: const Center(
+    //     child: Text('Settings still work on progress...'),
+    //   ),
+    // ),
   ];
 }
