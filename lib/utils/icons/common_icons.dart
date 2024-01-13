@@ -22,6 +22,10 @@ class CommonIcons {
     return "assets/icons/$filename";
   }
 
+  // Check Wifi Icons
+  static SvgPicture checkWifiFalse = defaultSizeAssets("state=wifi-off.svg",
+      width: 128, height: 128, color: CommonColors.themeBrandPrimarySurface);
+
   // Live Stream Icons
   static SvgPicture collapse = defaultSizeAssets(
     "collapse.svg",

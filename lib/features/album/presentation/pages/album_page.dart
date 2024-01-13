@@ -38,7 +38,6 @@ class _AlbumPageState extends State<AlbumPage> {
       value: albumCubit,
       child: SafeArea(
           minimum: const EdgeInsets.all(12),
-          //TODO: Make scrollable
           child: BlocConsumer<AlbumCubit, AlbumState>(
             listener: (context, state) {
               //TODO: make realtime progress dialog widget based on state.progress value
@@ -62,8 +61,6 @@ class _AlbumPageState extends State<AlbumPage> {
                       albumCubit.emitAllCompleted();
                     }
                     if (state is AllDataCompleted) {
-                      print(albumCubit.videoPath);
-
                       if (index == 0 ||
                           albumCubit.videoListEntity?.videos?[index]
                                   .formattedDate !=

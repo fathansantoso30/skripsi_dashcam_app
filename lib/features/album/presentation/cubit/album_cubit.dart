@@ -100,7 +100,7 @@ class AlbumCubit extends Cubit<AlbumState> {
         emit(PlayVideoLoaded());
       });
     } catch (e) {
-      print(e);
+      log('$e');
     }
   }
 
@@ -109,7 +109,7 @@ class AlbumCubit extends Cubit<AlbumState> {
       emit(ThumbnailLoading());
 
       for (var video in videoPath) {
-        print("check value videoPath: ${video.toString()}");
+        log("check value videoPath: ${video.toString()}");
         thumbnailFile.add(await VideoThumbnail.thumbnailFile(
           video: video.toString(),
           thumbnailPath: (await getTemporaryDirectory()).path,
@@ -119,7 +119,7 @@ class AlbumCubit extends Cubit<AlbumState> {
           quality: 10,
         ));
       }
-      print("check thumbnailFile: $thumbnailFile");
+      log("check thumbnailFile: $thumbnailFile");
       emit(ThumbnailLoaded());
     } catch (e) {
       emit(ThumbnailError(e.toString()));
