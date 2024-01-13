@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 
 import 'package:skripsi_dashcam_app/features/album/data/datasources/remote/album_remote_data_source.dart';
@@ -48,7 +50,7 @@ class AlbumRepositoryImpl implements AlbumRepository {
       final result = albumRemoteDataSource.playVideo(params);
       return Right(result);
     } catch (e) {
-      print(e);
+      log('$e');
     }
     throw UnimplementedError();
   }

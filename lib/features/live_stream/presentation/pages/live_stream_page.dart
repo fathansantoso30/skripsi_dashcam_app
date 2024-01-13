@@ -75,7 +75,7 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
         children: [
           _buildVideoScreenSection(),
           const SizedBox(
-            height: 24.0,
+            height: 8.0,
           ),
           _buildBodySection(),
         ],
@@ -163,7 +163,7 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
         children: [
           _buildDeviceInfoSection(),
           const SizedBox(
-            height: 24,
+            height: 8,
           ),
           _buildUserActionSection(),
         ],
@@ -200,7 +200,6 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
                   "Status:",
                   style: bodyMregular,
                 ),
-                // TODO: Add state wifi off when not connected to the network, must check network device connection first.
                 Row(
                   children: [
                     CommonIcons.stateWifiOn,
@@ -222,49 +221,80 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
   }
 
   Widget _buildUserActionSection() {
-    return Column(
-      children: [
-        _commonButton(
-          icon: CommonIcons.camera,
-          text: "Screenshot Frame",
-          colorButton: CommonColors.themeBrandPrimaryLightSurface,
-          colorText: CommonColors.themeGreysMainTextPrimary,
+    return BlocBuilder<LiveStreamCubit, LiveStreamState>(
+        builder: (context, state) {
+      if (state is LiveStreamLoaded) {
+        return Column(
+          children: [
+            _commonButton(
+              icon: CommonIcons.camera,
+              text: "Screenshot Frame",
+              colorButton: CommonColors.themeBrandPrimaryLightSurface,
+              colorText: CommonColors.themeGreysMainTextPrimary,
+              onPressed: () {
+                saveScreenshot();
+              },
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            _commonButton(
+              icon: CommonIcons.videoCameraOff,
+              text: "Stop Camera Feed",
+              colorButton: CommonColors.themeSemanticErrorSurfacePressed,
+              colorText: CommonColors.themeBrandPrimaryTextInvert,
+              onPressed: () {
+                // Dispatch an event to stop the camera feed
+                liveStreamCubit.disconnectLiveStreamData();
+              },
+            ),
+          ],
+        );
+      } else {
+        return _commonButton(
+          icon: CommonIcons.videoCameraOn,
+          text: "Start Camera Feed",
+          colorButton: CommonColors.themeBrandPrimarySurface,
+          colorText: CommonColors.themeBrandPrimaryTextInvert,
           onPressed: () {
-            saveScreenshot();
+            // Dispatch an event to start the camera feed
+            liveStreamCubit.getLiveStreamData();
           },
-        ),
-        const SizedBox(
-          height: 24,
-        ),
-        BlocBuilder<LiveStreamCubit, LiveStreamState>(
-          builder: (context, state) {
-            if (state is LiveStreamLoaded) {
-              return _commonButton(
-                icon: CommonIcons.videoCameraOff,
-                text: "Stop Camera Feed",
-                colorButton: CommonColors.themeSemanticErrorSurfacePressed,
-                colorText: CommonColors.themeBrandPrimaryTextInvert,
-                onPressed: () {
-                  // Dispatch an event to stop the camera feed
-                  liveStreamCubit.disconnectLiveStreamData();
-                },
-              );
-            } else {
-              return _commonButton(
-                icon: CommonIcons.videoCameraOn,
-                text: "Start Camera Feed",
-                colorButton: CommonColors.themeBrandPrimarySurface,
-                colorText: CommonColors.themeBrandPrimaryTextInvert,
-                onPressed: () {
-                  // Dispatch an event to start the camera feed
-                  liveStreamCubit.getLiveStreamData();
-                },
-              );
-            }
-          },
-        ),
-      ],
-    );
+        );
+      }
+    });
+
+    // Column(
+    //   children: [
+    //     BlocBuilder<LiveStreamCubit, LiveStreamState>(
+    //       builder: (context, state) {
+    //         if (state is LiveStreamLoaded) {
+    //           return _commonButton(
+    //             icon: CommonIcons.videoCameraOff,
+    //             text: "Stop Camera Feed",
+    //             colorButton: CommonColors.themeSemanticErrorSurfacePressed,
+    //             colorText: CommonColors.themeBrandPrimaryTextInvert,
+    //             onPressed: () {
+    //               // Dispatch an event to stop the camera feed
+    //               liveStreamCubit.disconnectLiveStreamData();
+    //             },
+    //           );
+    //         } else {
+    //           return _commonButton(
+    //             icon: CommonIcons.videoCameraOn,
+    //             text: "Start Camera Feed",
+    //             colorButton: CommonColors.themeBrandPrimarySurface,
+    //             colorText: CommonColors.themeBrandPrimaryTextInvert,
+    //             onPressed: () {
+    //               // Dispatch an event to start the camera feed
+    //               liveStreamCubit.getLiveStreamData();
+    //             },
+    //           );
+    //         }
+    //       },
+    //     ),
+    //   ],
+    // );
   }
 
   Widget _commonButton({
