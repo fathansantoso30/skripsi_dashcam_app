@@ -39,9 +39,7 @@ class _AlbumPageState extends State<AlbumPage> {
       child: SafeArea(
           minimum: const EdgeInsets.all(12),
           child: BlocConsumer<AlbumCubit, AlbumState>(
-            listener: (context, state) {
-              //TODO: make realtime progress dialog widget based on state.progress value
-            },
+            listener: (context, state) {},
             builder: (context, state) {
               return ListView.builder(
                   itemCount: albumCubit.videoListEntity?.videos?.length,

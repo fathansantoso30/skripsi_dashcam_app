@@ -148,8 +148,6 @@ class _LiveStreamFullScreenPageState extends State<LiveStreamFullScreenPage> {
         );
       },
       listener: (context, state) {
-        // TODO: implement listener
-        print(state);
         if (state is RecordLiveStreamStopped) {
           showDialog(
             barrierDismissible: false,

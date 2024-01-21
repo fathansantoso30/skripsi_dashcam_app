@@ -293,7 +293,6 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
         },
       );
     }, listener: (context, state) {
-      print(state);
       if (state is RecordLiveStreamStopped) {
         showDialog(
           barrierDismissible: false,

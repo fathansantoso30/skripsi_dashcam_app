@@ -20,7 +20,6 @@ class RecordLiveStreamCubit extends Cubit<RecordLiveStreamState> {
   bool isRecording = false;
   int frameNum = 0;
 
-  //TODO:
   Future<void> startStopRecording() async {
     emit(RecordLiveStreamTrue());
     isRecording = !isRecording;
@@ -33,11 +32,8 @@ class RecordLiveStreamCubit extends Cubit<RecordLiveStreamState> {
     }
   }
 
-  //TODO:
   Future<void> _saveToGallery(String path, String name) async {
     ImageGallerySaver.saveFile(path, name: name).then((result) {
-      print("Video Save result : $result");
-
       final bool isSuccess = result['isSuccess'] ?? false;
       final String errorMessage = result['errorMessage'] ?? "Unknown error";
 
@@ -68,7 +64,6 @@ class RecordLiveStreamCubit extends Cubit<RecordLiveStreamState> {
     await Directory(appTempDir!).create();
     final file = File('$appTempDir/$localName');
     await file.writeAsBytes(byteData);
-    print("filePath : ${file.path}");
   }
 
   static String generateEncodeVideoScript(String videoCodec, String fileName) {
@@ -79,13 +74,10 @@ class RecordLiveStreamCubit extends Cubit<RecordLiveStreamState> {
   Future<void> _makeVideoWithFFMpeg() async {
     final String tempVideofileName =
         "${DateFormat('dMMMyyyyHHmmss').format(DateTime.now())}.mp4";
-    print(tempVideofileName);
     FFmpegKit.execute(generateEncodeVideoScript("mpeg4", tempVideofileName))
         .then((session) async {
       final returnCode = await session.getReturnCode();
       if (ReturnCode.isSuccess(returnCode)) {
-        print("Video complete");
-
         String outputPath = "$appTempDir/$tempVideofileName";
         _saveToGallery(outputPath, tempVideofileName);
       } else if (ReturnCode.isCancel(returnCode)) {
