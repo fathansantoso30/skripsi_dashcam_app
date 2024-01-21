@@ -178,4 +178,18 @@ class CommonIcons {
     width: 24,
     height: 24,
   );
+
+  static SvgPicture recordStart = defaultSizeAssets(
+    "record-start.svg",
+    width: 24,
+    height: 24,
+    color: CommonColors.themeGreysMainTextPrimary,
+  );
+
+  static SvgPicture recordStop = defaultSizeAssets(
+    "record-stop.svg",
+    width: 24,
+    height: 24,
+    color: CommonColors.themeSemanticErrorSurfacePressed,
+  );
 }
