@@ -131,7 +131,6 @@ TextStyle get bodyXSmedium => const TextStyle(
     );
 
 TextStyle get buttonL => const TextStyle(
-      fontFamily: 'PlusJakartaSans',
       fontSize: 18,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -141,7 +140,6 @@ TextStyle get buttonL => const TextStyle(
     );
 
 TextStyle get buttonM => const TextStyle(
-      fontFamily: 'PlusJakartaSans',
       fontSize: 16,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
@@ -151,7 +149,6 @@ TextStyle get buttonM => const TextStyle(
     );
 
 TextStyle get buttonS => const TextStyle(
-      fontFamily: 'PlusJakartaSans',
       fontSize: 14,
       decoration: TextDecoration.none,
       fontStyle: FontStyle.normal,
