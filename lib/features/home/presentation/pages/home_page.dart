@@ -6,6 +6,7 @@ import 'package:skripsi_dashcam_app/features/album/presentation/pages/album_page
 import 'package:skripsi_dashcam_app/features/home/presentation/cubit/connectivity_cubit.dart';
 import 'package:skripsi_dashcam_app/features/home/presentation/cubit/navbar_cubit.dart';
 import 'package:skripsi_dashcam_app/features/live_stream/presentation/cubit/live_stream_cubit.dart';
+import 'package:skripsi_dashcam_app/features/live_stream/presentation/cubit/record_live_stream_cubit.dart';
 import 'package:skripsi_dashcam_app/features/live_stream/presentation/pages/live_stream_page.dart';
 import 'package:skripsi_dashcam_app/utils/icons/common_icons.dart';
 import 'package:skripsi_dashcam_app/utils/text_style/common_text_style.dart';
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   late LiveStreamCubit liveStreamCubit;
   late AlbumCubit albumCubit;
   late NavbarCubit navbarCubit;
+  late RecordLiveStreamCubit recordLiveStreamCubit;
 
   @override
   void initState() {
@@ -34,7 +36,9 @@ class _HomePageState extends State<HomePage> {
     navbarCubit = GetIt.instance<NavbarCubit>();
     liveStreamCubit = GetIt.instance<LiveStreamCubit>();
     albumCubit = GetIt.instance<AlbumCubit>();
+    recordLiveStreamCubit = GetIt.instance<RecordLiveStreamCubit>();
     _selectedIndex = 1;
+    connectivityCubit.checkLocationService();
     connectivityCubit.checkWifiStatus();
   }
 
@@ -48,6 +52,8 @@ class _HomePageState extends State<HomePage> {
         ),
         BlocProvider<LiveStreamCubit>(create: (context) => liveStreamCubit),
         BlocProvider<AlbumCubit>(create: (context) => albumCubit),
+        BlocProvider<RecordLiveStreamCubit>(
+            create: (context) => recordLiveStreamCubit),
       ],
       child: BlocConsumer<ConnectivityCubit, ConnectivityState>(
           builder: (context, state) {
