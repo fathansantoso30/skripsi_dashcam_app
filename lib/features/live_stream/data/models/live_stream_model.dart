@@ -1,7 +1,7 @@
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class LiveStreamModel {
-  final WebSocketChannel dataStream;
+  final WebSocketChannel? dataStream;
 
   LiveStreamModel({
     required this.dataStream,

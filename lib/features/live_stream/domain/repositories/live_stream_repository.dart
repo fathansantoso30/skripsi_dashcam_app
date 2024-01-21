@@ -5,4 +5,5 @@ import '../entities/live_stream_entity.dart';
 
 abstract class LiveStreamRepository {
   Future<Either<Failure, LiveStreamEntity>> getLiveStreamData();
+  Future<Either<Failure, void>> closeLiveStreamData();
 }
