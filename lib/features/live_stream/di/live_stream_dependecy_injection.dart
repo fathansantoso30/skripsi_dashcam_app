@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:skripsi_dashcam_app/features/live_stream/domain/usecases/close_live_stream_data_usecase.dart';
+import 'package:skripsi_dashcam_app/features/live_stream/presentation/cubit/record_live_stream_cubit.dart';
 
 import '../data/datasources/remote/live_stream_remote_data_source.dart';
 import '../data/repositories/live_stream_repository_impl.dart';
@@ -17,12 +19,23 @@ void _initLiveStreamDI() {
   sl.registerLazySingleton(
     () => LiveStreamCubit(
       getLiveStreamDataUseCase: sl(),
+      closeLiveStreamDataUseCase: sl(),
     ),
+  );
+
+  sl.registerLazySingleton(
+    () => RecordLiveStreamCubit(),
   );
 
   // usecase
   sl.registerLazySingleton<GetLiveStreamDataUseCase>(
     () => GetLiveStreamDataUseCase(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<CloseLiveStreamDataUseCase>(
+    () => CloseLiveStreamDataUseCase(
       repository: sl(),
     ),
   );

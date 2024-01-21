@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/exceptions.dart';
@@ -25,6 +27,17 @@ class LiveStreamRepositoryImpl implements LiveStreamRepository {
       return Left(
         ServerFailure(),
       );
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> closeLiveStreamData() async {
+    try {
+      final result = remoteDataSource.closeLiveStreamData();
+      return Right(result);
+    } catch (e) {
+      log('$e');
+      throw UnimplementedError();
     }
   }
 }

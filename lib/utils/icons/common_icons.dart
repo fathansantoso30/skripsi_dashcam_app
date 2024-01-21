@@ -62,12 +62,6 @@ class CommonIcons {
     color: CommonColors.themeGreysMainTextPrimary,
   );
 
-  static SvgPicture cameraWhite = defaultSizeAssets(
-    "camera.svg",
-    width: 24,
-    height: 24,
-    color: CommonColors.themeGreysMainSurface,
-  );
   // Navbar Icons [Active State]
   static SvgPicture galleryActive = defaultSizeAssets(
     "gallery.svg",
@@ -191,5 +185,12 @@ class CommonIcons {
     width: 24,
     height: 24,
     color: CommonColors.themeSemanticErrorSurfacePressed,
+  );
+
+  static SvgPicture recordStopWhite = defaultSizeAssets(
+    "record-stop.svg",
+    width: 24,
+    height: 24,
+    color: CommonColors.themeGreysMainSurface,
   );
 }

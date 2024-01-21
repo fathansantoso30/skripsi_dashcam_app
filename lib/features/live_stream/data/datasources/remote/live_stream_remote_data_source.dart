@@ -8,16 +8,25 @@ abstract class LiveStreamRemoteDataSource {
   ///
   /// Throws a [ServerException] for all error codes.
   Future<LiveStreamModel> getLiveStreamData();
+  Future<void> closeLiveStreamData();
 }
 
 class LiveStreamRemoteDataSourceImpl implements LiveStreamRemoteDataSource {
+  WebSocketChannel? channel;
+
   @override
   Future<LiveStreamModel> getLiveStreamData() async {
     // Websocket url address
     final Uri url = Uri.parse("ws://192.168.4.1:8888");
-    // connect tot websocket channel
-    WebSocketChannel? channel = IOWebSocketChannel.connect(url);
-    await channel.ready;
+    // connect to websocket channel
+    channel = IOWebSocketChannel.connect(url);
+    await channel?.ready;
     return LiveStreamModel(dataStream: channel);
+  }
+
+  @override
+  // close websocket channel
+  Future<void> closeLiveStreamData() async {
+    channel?.sink.close();
   }
 }

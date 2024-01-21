@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:skripsi_dashcam_app/features/live_stream/presentation/cubit/record_live_stream_cubit.dart';
+import 'package:skripsi_dashcam_app/features/live_stream/presentation/widgets/record_timer.dart';
 
 import '../../../../utils/colors/common_colors.dart';
 import '../../../../utils/icons/common_icons.dart';
@@ -23,7 +23,8 @@ class LiveStreamPage extends StatefulWidget {
 
 class _LiveStreamPageState extends State<LiveStreamPage> {
   late LiveStreamCubit liveStreamCubit;
-  ScreenshotController screenshotController = ScreenshotController();
+  late RecordLiveStreamCubit recordLiveStreamCubit;
+  // ScreenshotController screenshotController = ScreenshotController();
 
   @override
   void initState() {
@@ -32,6 +33,7 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
       DeviceOrientation.portraitDown,
     ]);
     liveStreamCubit = GetIt.instance<LiveStreamCubit>();
+    recordLiveStreamCubit = GetIt.instance<RecordLiveStreamCubit>();
     super.initState();
   }
 
@@ -42,29 +44,10 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
       MaterialPageRoute(
         builder: (context) => LiveStreamFullScreenPage(
           stream: liveStreamCubit.broadcastStream,
+          recordLiveStreamCubit: recordLiveStreamCubit,
         ),
       ),
     );
-  }
-
-  Future<void> saveScreenshot() async {
-    try {
-      final image = await screenshotController.capture();
-      final result = await ImageGallerySaver.saveImage(image!);
-      debugPrint('Screenshot saved to gallery: $result');
-      Fluttertoast.showToast(
-        msg: "Screenshot saved in Gallery",
-        toastLength: Toast.LENGTH_SHORT, //duration
-        gravity: ToastGravity.BOTTOM, //location
-      );
-    } catch (e) {
-      debugPrint('Error saving screenshot: $e');
-      Fluttertoast.showToast(
-        msg: "Error saving screenshot: $e",
-        toastLength: Toast.LENGTH_SHORT, //duration
-        gravity: ToastGravity.BOTTOM, //location
-      );
-    }
   }
 
   @override
@@ -74,9 +57,6 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
       child: Column(
         children: [
           _buildVideoScreenSection(),
-          const SizedBox(
-            height: 8.0,
-          ),
           _buildBodySection(),
         ],
       ),
@@ -105,6 +85,7 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
                 stream: liveStreamCubit.broadcastStream,
               ),
               _buildExpandButton(),
+              _buildRecordTimer(),
             ],
           );
         } else {
@@ -119,7 +100,7 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
 
   Widget _buildStreamSection({required Stream? stream}) {
     return Screenshot(
-      controller: screenshotController,
+      controller: liveStreamCubit.screenshotController,
       child: StreamBuilder(
         stream: stream,
         builder: (context, snapshot) {
@@ -127,17 +108,22 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
             return const Center(
               child: CircularProgressIndicator(),
             );
+          } else {
+            if (recordLiveStreamCubit.isRecording) {
+              recordLiveStreamCubit.saveImageFileToDirectory(
+                  snapshot.data, 'image_${recordLiveStreamCubit.frameNum}.jpg');
+              recordLiveStreamCubit.frameNum++;
+            }
+            // Working for single frames
+            return Stack(children: [
+              Image.memory(
+                snapshot.data,
+                gaplessPlayback: true,
+                width: double.infinity,
+              ),
+              const TimestampClock(),
+            ]);
           }
-
-          //? Working for single frames
-          return Stack(children: [
-            Image.memory(
-              snapshot.data,
-              gaplessPlayback: true,
-              width: double.infinity,
-            ),
-            const TimestampClock(),
-          ]);
         },
       ),
     );
@@ -153,6 +139,22 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
         },
         child: CommonIcons.expand,
       ),
+    );
+  }
+
+  Widget _buildRecordTimer() {
+    return BlocBuilder<RecordLiveStreamCubit, RecordLiveStreamState>(
+      builder: ((context, state) {
+        if (state is RecordLiveStreamTrue) {
+          return const Positioned(
+            bottom: 16,
+            left: 16,
+            child: BlinkingTimer(),
+          );
+        }
+
+        return const SizedBox.shrink();
+      }),
     );
   }
 
@@ -178,7 +180,7 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
         border: Border.all(color: CommonColors.themeBackground02, width: 2),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -192,7 +194,7 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
               "ESP32-CAM",
               style: bodyLregular,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -229,12 +231,16 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
             _commonButton(
               icon: CommonIcons.camera,
               text: "Screenshot Frame",
-              colorButton: CommonColors.themeBrandPrimaryLightSurface,
+              colorButton: CommonColors.themeBackground01,
               colorText: CommonColors.themeGreysMainTextPrimary,
               onPressed: () {
-                saveScreenshot();
+                liveStreamCubit.saveScreenshot();
               },
             ),
+            const SizedBox(
+              height: 12,
+            ),
+            _buildRecordButton(),
             const SizedBox(
               height: 12,
             ),
@@ -259,42 +265,72 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
           onPressed: () {
             // Dispatch an event to start the camera feed
             liveStreamCubit.getLiveStreamData();
+            // get temp app dir for saving record frame image
+            recordLiveStreamCubit.getAppTempDirectory();
           },
         );
       }
     });
+  }
 
-    // Column(
-    //   children: [
-    //     BlocBuilder<LiveStreamCubit, LiveStreamState>(
-    //       builder: (context, state) {
-    //         if (state is LiveStreamLoaded) {
-    //           return _commonButton(
-    //             icon: CommonIcons.videoCameraOff,
-    //             text: "Stop Camera Feed",
-    //             colorButton: CommonColors.themeSemanticErrorSurfacePressed,
-    //             colorText: CommonColors.themeBrandPrimaryTextInvert,
-    //             onPressed: () {
-    //               // Dispatch an event to stop the camera feed
-    //               liveStreamCubit.disconnectLiveStreamData();
-    //             },
-    //           );
-    //         } else {
-    //           return _commonButton(
-    //             icon: CommonIcons.videoCameraOn,
-    //             text: "Start Camera Feed",
-    //             colorButton: CommonColors.themeBrandPrimarySurface,
-    //             colorText: CommonColors.themeBrandPrimaryTextInvert,
-    //             onPressed: () {
-    //               // Dispatch an event to start the camera feed
-    //               liveStreamCubit.getLiveStreamData();
-    //             },
-    //           );
-    //         }
-    //       },
-    //     ),
-    //   ],
-    // );
+  Widget _buildRecordButton() {
+    return BlocConsumer<RecordLiveStreamCubit, RecordLiveStreamState>(
+        builder: (context, state) {
+      return _commonButton(
+        icon: state is RecordLiveStreamTrue
+            ? CommonIcons.recordStop
+            : CommonIcons.recordStart,
+        text: state is RecordLiveStreamTrue
+            ? "Stop Recording"
+            : "Start Recording",
+        colorButton: CommonColors.themeBackground01,
+        colorText: state is RecordLiveStreamTrue
+            ? CommonColors.themeSemanticErrorSurfacePressed
+            : CommonColors.themeGreysMainTextPrimary,
+        onPressed: () {
+          // Dispatch an event to start recording the stream
+          recordLiveStreamCubit.startStopRecording();
+        },
+      );
+    }, listener: (context, state) {
+      print(state);
+      if (state is RecordLiveStreamStopped) {
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return Dialog(
+              // The background color
+
+              backgroundColor: CommonColors.themeBackground00,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // The loading indicator
+                    const CircularProgressIndicator(),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    // Some text
+                    Text(
+                      'Saving...',
+                      style: bodyMregular,
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      }
+
+      if (state is RecordLiveStreamSaved) {
+        // Close the dialog if the state is not RecordLiveStreamSaving
+        Navigator.of(context).pop();
+      }
+    });
   }
 
   Widget _commonButton({
@@ -308,7 +344,7 @@ class _LiveStreamPageState extends State<LiveStreamPage> {
         style: ElevatedButton.styleFrom(
             backgroundColor: colorButton,
             foregroundColor: colorText,
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(12),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             )),
