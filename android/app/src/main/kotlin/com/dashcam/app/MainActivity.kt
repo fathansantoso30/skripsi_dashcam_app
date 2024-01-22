@@ -1,4 +1,4 @@
-package com.example.skripsi_dashcam_app
+package com.dashcam.app
 
 import io.flutter.embedding.android.FlutterActivity
 

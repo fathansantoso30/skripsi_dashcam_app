@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.skripsi_dashcam_app">
+    package="com.dashcam.app">
    <application
-        android:label="skripsi_dashcam_app"
+        android:label="DashCam App"
         android:usesCleartextTraffic="true"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
